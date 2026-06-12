@@ -3,6 +3,7 @@ from discord.ext import commands
 import random
 import asyncio
 
+
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -35,5 +36,34 @@ async def guess(ctx):
         await ctx.send('Masz rację. Brawo!')
     else:
         await ctx.send(f'Źle! Prawidłowa odpowiedź to {answer}.')
+@bot.command()
+async def games(ctx):
+    
+    links = ["https://marcelixon12.itch.io/the-power-of-ring"]
+    game = random.choice(links)
+    
+    await ctx.send(game)
+@bot.command()
+async def info(ctx):
+    commands = ['$hello', '$heh', '$guess', '$info', '$games', '$editme']
+    explaines = ['Bot przywita się z tobą', 'Po $heh możesz dodać jakąś liczbę, a bot napisze he tyle razy ile to napisałeś, jeśli nic nie napiszesz bot wypisze he 5 razy', 'Musisz zgadnąć cyfrę od 1 do 10', 'Wyświetla wszystkie komendy', 'Wyświetla linki do gier twórcy', 'Jeśli wpiszesz po niej słowo bot je zedytuje']
+    await ctx.send(commands[0])
+    await ctx.send(explaines[0])
+    await ctx.send(commands[1])
+    await ctx.send(explaines[1])
+    await ctx.send(commands[2])
+    await ctx.send(explaines[2])
+    await ctx.send(commands[3])
+    await ctx.send(explaines[3])
+    await ctx.send(commands[4])
+    await ctx.send(explaines[4])
+    await ctx.send(commands[5])
+    await ctx.send(explaines[5])    
+@bot.command()
+async def editme(ctx, text = '10'):
+    msg = await ctx.send(text)
+    await asyncio.sleep(3.0)
+    await msg.edit(content= text + '. Lubię bigos')
+    
 
 bot.run("")
