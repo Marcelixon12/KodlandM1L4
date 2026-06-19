@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 import random
 import asyncio
+import os
+import requests
 
 
 intents = discord.Intents.default()
@@ -45,8 +47,8 @@ async def games(ctx):
     await ctx.send(game)
 @bot.command()
 async def info(ctx):
-    commands = ['$hello', '$heh', '$guess', '$info', '$games', '$editme']
-    explaines = ['Bot przywita się z tobą', 'Po $heh możesz dodać jakąś liczbę, a bot napisze he tyle razy ile to napisałeś, jeśli nic nie napiszesz bot wypisze he 5 razy', 'Musisz zgadnąć cyfrę od 1 do 10', 'Wyświetla wszystkie komendy', 'Wyświetla linki do gier twórcy', 'Jeśli wpiszesz po niej słowo bot je zedytuje']
+    commands = ['$hello', '$heh', '$guess', '$info', '$games', '$editme', '$mem', '$duck' ]
+    explaines = ['Bot przywita się z tobą', 'Po $heh możesz dodać jakąś liczbę, a bot napisze he tyle razy ile to napisałeś, jeśli nic nie napiszesz bot wypisze he 5 razy', 'Musisz zgadnąć cyfrę od 1 do 10', 'Wyświetla wszystkie komendy', 'Wyświetla linki do gier twórcy', 'Jeśli wpiszesz po niej słowo bot je zedytuje', 'Wysyła fajne memy', 'Wysyła zdjęcie kaczki']
     await ctx.send(commands[0])
     await ctx.send(explaines[0])
     await ctx.send(commands[1])
@@ -58,12 +60,46 @@ async def info(ctx):
     await ctx.send(commands[4])
     await ctx.send(explaines[4])
     await ctx.send(commands[5])
-    await ctx.send(explaines[5])    
+    await ctx.send(explaines[5])  
+    await ctx.send(commands[6]) 
+    await ctx.send(explaines[6]) 
+    await ctx.send(commands[7]) 
+    await ctx.send(explaines[7]) 
+    await ctx.send(commands[8]) 
+    await ctx.send(explaines[8])
 @bot.command()
 async def editme(ctx, text = '10'):
     msg = await ctx.send(text)
     await asyncio.sleep(3.0)
-    await msg.edit(content= text + '. Lubię bigos')
+    await msg.edit(content= text + '. Super wiadomość')
+@bot.command()
+async def mem(ctx):
+
+    path = "D:\\GitHub\\Python\\M1L3\\images"
+
+    lista_plikow = os.listdir(path)
+
+    random_mem = random.choice(lista_plikow) 
+
+    sciezka_do_mema = path + "\\" + random_mem
+
+    with open(sciezka_do_mema, 'rb') as f:
+        picture = discord.File(f)
+
+    await ctx.send(file=picture)
+def get_duck_image_url():    
+    url = 'https://random-d.uk/api/random'
+    res = requests.get(url)
+    data = res.json()
+    return data['url']
+
+
+@bot.command('duck')
+async def duck(ctx):
+    '''Po wywołaniu polecenia duck program wywołuje funkcję get_duck_image_url'''
+    image_url = get_duck_image_url()
+    await ctx.send(image_url)
+
     
 
 bot.run("")
